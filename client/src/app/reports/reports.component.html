@@ -1,0 +1,32 @@
+<ng-container *ngIf="!!client">
+
+    <form class="form" [formGroup]="form">
+
+        <h2>{{textManager.CLIENT_QUESTION_FORM_REPORTS_title}}</h2>
+
+        <div class="details-wrapper">
+
+            <div class="confustion-matrix">
+                <h3>{{textManager.CLIENT_QUESTION_FORM_REPORTS_confusion_matrix_report}}</h3>
+                <img src="assets/reports/confustion-matrix.jpeg">
+            </div>
+
+            <div class="classification-report">
+                <h3>{{textManager.CLIENT_QUESTION_FORM_REPORTS_classification_report}}</h3>
+                <img src="assets/reports/classification-report.jpeg">
+            </div>
+
+        </div>
+
+        <div class="form-footer" [class.form-footer--rtl]="rtl">
+            <button [disabled]="disabled" mat-raised-button (click)="onBack()">
+                {{textManager.APP_back_btn}}
+            </button>
+
+            <button [disabled]="disabled" mat-raised-button (click)="onReset()" color="warn">
+                {{textManager.APP_reset_btn}}
+            </button>
+        </div>
+    </form>
+
+</ng-container>
