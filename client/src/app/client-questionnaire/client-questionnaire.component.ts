@@ -1,18 +1,21 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { catchError, finalize, first, map, pluck, switchMap, tap } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, finalize, first, map, pluck, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { EMPTY } from 'rxjs';
 
 import { Doctor } from '../models/doctor.interface';
 import { Client } from '../models/client.interface';
 import { AuthService } from '../services/auth.service';
 import { ClientService } from '../core/client-service';
 import { LanguageService } from '../core/language-service';
-import { DatabaseService } from '../services/database.service';
+import { ClientAppointment } from '../models/client-appointment.interface';
 import { StepEnum } from '../models/step.enum';
-import { EMPTY } from 'rxjs';
+
+import * as moment from 'moment/moment';
+import { PercentPipe } from '@angular/common';
+import { TextManager } from '../core/text-manager';
 
 @Component({
   selector: 'app-client-questionnaire',
@@ -44,9 +47,8 @@ export class ClientQuestionnaireComponent implements OnInit {
   precentege: number = 0;
 
   constructor(
-    private readonly route: Router,
     private readonly http: HttpClient,
-    private readonly db: DatabaseService,
+    private readonly percentPipe: PercentPipe,
     private readonly authService: AuthService,
     private readonly clientService: ClientService,
     private readonly languageService: LanguageService,
@@ -73,7 +75,7 @@ export class ClientQuestionnaireComponent implements OnInit {
 
   searchClient(formData: any): void {
     this.disabled = true;
-    this.db.getClient(formData.clientId).pipe(
+    this.clientService.getClient(formData.clientId).pipe(
       first(),
       tap(client => {
         if (client) {
@@ -148,6 +150,16 @@ export class ClientQuestionnaireComponent implements OnInit {
           sessionStorage.setItem('precentege', JSON.stringify(this.precentege));
           this.setStep(StepEnum.CLIENT_QUESTIONNAIRE_RESULT);
       }),
+      
+      switchMap(() => this.clientService.addAppointment({
+        clientId: this.client?.uid,
+        date: moment().toString(),
+        results_en: this.getResults('en'),
+        advise_en: this.getAdvise('en'),
+        results_he: this.getResults('he'),
+        advise_he: this.getAdvise('he')
+      } as ClientAppointment)),
+
       catchError(error => {
         console.log(error);
         alert(this.textManager['CLIENT_QUESTION_FORM_failed']);
@@ -184,6 +196,30 @@ export class ClientQuestionnaireComponent implements OnInit {
       this.clientHealthCheckForm.controls['COUGHING'].invalid ||
       this.clientHealthCheckForm.controls['SADNESS'].invalid ||
       this.clientHealthCheckForm.controls['PASSIVE_SMOKING'].invalid
+  }
+
+  getResults(lang: 'en' | 'he'): string {
+    return `
+      ${TextManager[lang].CLIENT_QUESTION_FORM_RESULT_precentege_description_1} 
+      ${this.percentPipe.transform(this.precentege)}
+      ${TextManager[lang].CLIENT_QUESTION_FORM_RESULT_precentege_description_2}
+    `;
+  }
+
+  getAdvise(lang: 'en' | 'he'): string {
+    if (this.precentege <= 0.3) {
+      return TextManager[lang]['CLIENT_QUESTION_FORM_RESULT_system_advise_low_description'];
+    }
+    else if (this.precentege > 0.3 && this.precentege <= 0.7) {
+      return TextManager[lang]['CLIENT_QUESTION_FORM_RESULT_system_advise_moderate_description'];
+    }
+    else {
+      return TextManager[lang]['CLIENT_QUESTION_FORM_RESULT_system_advise_high_description'];
+    }
+  }
+
+  get selectedLanguage(): 'en' | 'he' {
+    return this.textManager === TextManager.en ? 'en' : 'he';
   }
 
   ngOnInit(): void {

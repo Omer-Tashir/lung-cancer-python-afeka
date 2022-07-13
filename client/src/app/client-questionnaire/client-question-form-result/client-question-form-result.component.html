@@ -8,11 +8,7 @@
 
             <div class="precentege-wrapper">
                 <h3>{{textManager.CLIENT_QUESTION_FORM_RESULT_precentege_title}}</h3>
-                <code>
-                    {{textManager.CLIENT_QUESTION_FORM_RESULT_precentege_description_1}} 
-                    <span class="precentege">{{precentege | percent}}</span>
-                    {{textManager.CLIENT_QUESTION_FORM_RESULT_precentege_description_2}}
-                </code>
+                <code [innerHTML]="results"></code>
             </div>
 
             <div class="recommendations-wrapper">

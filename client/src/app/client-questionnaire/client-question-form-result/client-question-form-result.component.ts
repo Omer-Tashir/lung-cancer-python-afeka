@@ -22,25 +22,17 @@ export class ClientQuestionFormResultComponent implements OnInit {
 
   @Input() form!: FormGroup;
 
-  @Input() precentege: number = 0;
+  @Input() results!: string;
+
+  @Input() advise!: string;
+
+  @Input() 
 
   @Output() back: EventEmitter<void> = new EventEmitter();
 
   @Output() continue: EventEmitter<void> = new EventEmitter();
 
   @Output() reset: EventEmitter<void> = new EventEmitter();
-
-  get advise(): string {
-    if (this.precentege <= 0.3) {
-      return this.textManager['CLIENT_QUESTION_FORM_RESULT_system_advise_low_description'];
-    }
-    else if (this.precentege > 0.3 && this.precentege <= 0.7) {
-      return this.textManager['CLIENT_QUESTION_FORM_RESULT_system_advise_moderate_description'];
-    }
-    else {
-      return this.textManager['CLIENT_QUESTION_FORM_RESULT_system_advise_high_description'];
-    }
-  }
 
   constructor( 
   ) {}

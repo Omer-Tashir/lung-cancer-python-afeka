@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TextManager } from 'src/app/core/text-manager';
 import { Client } from 'src/app/models/client.interface';
 import { Doctor } from '../../models/doctor.interface';
 
@@ -30,7 +31,11 @@ export class ClientDetailsFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder
-  ) {}
+  ) { }
+  
+  get selectedLanguage(): 'en' | 'he' {
+    return this.textManager === TextManager.en ? 'en' : 'he';
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({

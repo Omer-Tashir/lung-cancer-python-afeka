@@ -38,12 +38,23 @@
     
             <div class="form-control medical-history">
                 <h4>{{textManager.GET_CLIENT_details_medical_history}}</h4>
-                <ul *ngIf="form.get('medicalHistory')?.value?.length > 0">
-                    <li *ngFor="let appointment of form.get('medicalHistory')?.value">
-                        <strong>{{appointment.date | date}}</strong>
-                        <p>{{appointment.treatment ? appointment.issue + ', ' : appointment.issue}}{{appointment.treatment}}</p>
-                    </li>
-                </ul>
+                <ng-container *ngIf="form.get('medicalHistory')?.value?.length; else emptyMedicalHistory">
+                    <ul class="client__history">
+                        <li *ngFor="let appointment of form.get('medicalHistory')?.value" class="client__history-item">
+                            <span>{{textManager.CLIENTS_date}}: {{appointment.date | date:'dd/MM/yyyy - hh:mm:ss'}}</span>
+                            <code>{{textManager.CLIENTS_results}}: 
+                                {{selectedLanguage === 'en' ? appointment.results_en : appointment.results_he}}
+                            </code>
+                            <code>{{textManager.CLIENTS_advise}}: 
+                                {{selectedLanguage === 'en' ? appointment.advise_en : appointment.advise_he}}
+                            </code>
+                        </li>
+                    </ul>
+                </ng-container>
+                
+                <ng-template #emptyMedicalHistory>
+                    <span class="client__empty-visits">{{textManager.CLIENTS_empty_medical_history}}</span>
+                </ng-template>
             </div>
 
         </div>

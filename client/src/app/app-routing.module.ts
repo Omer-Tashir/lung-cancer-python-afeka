@@ -19,8 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'client-questionnaire',
-    component: ClientQuestionnaireComponent,
-    canActivate: [isLoggedInGuard]
+    canActivate: [isLoggedInGuard],
+    component: ClientQuestionnaireComponent
   },
 ];
 

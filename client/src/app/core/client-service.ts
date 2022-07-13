@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { ClientAppointment } from "../models/client-appointment.interface";
 import { Client } from "../models/client.interface";
 import { DatabaseService } from "../services/database.service";
-
-import * as moment from 'moment/moment';
 
 @Injectable({
     providedIn: 'root',
@@ -29,12 +28,23 @@ export class ClientService {
         } as Client);
     }
 
-    addAppointment(client: Client): void {
-        this.db.addClientAppointment({
-            clientId: client.uid,
-            date: moment('12.8.2021', 'DD-MM-YYYY').toString(),
-            issue: 'Referral for blood tests',
-            treatment: '',
-        } as ClientAppointment);
+    getClient(uid: string): Observable<Client> {
+        return this.db.getClient(uid);
+    }
+
+    getClients(): Observable<Client[]> {
+        return this.db.getClients();
+    }
+
+    getClientAppointments(clientId: string): Observable<ClientAppointment[]> {
+        return this.db.getClientAppointments(clientId);
+    }
+
+    addAppointment(clientAppointment: ClientAppointment): Observable<any> {
+        return this.db.addClientAppointment(clientAppointment);
+    }
+
+    onUpdates(): Observable<boolean> {
+        return this.db.updateSub.asObservable();
     }
 }

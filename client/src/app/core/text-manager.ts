@@ -80,7 +80,18 @@ export class TextManager {
 
         CLIENT_QUESTION_FORM_REPORTS_title: 'Reports',
         CLIENT_QUESTION_FORM_REPORTS_confusion_matrix_report: 'Confusion Matrix',
-        CLIENT_QUESTION_FORM_REPORTS_classification_report: 'Classification Report'
+        CLIENT_QUESTION_FORM_REPORTS_classification_report: 'Classification Report',
+
+        CLIENTS_title: 'Client Medical History Log',
+        CLIENTS_last_visit_title: 'Medical history',
+        CLIENTS_id: 'ID',
+        CLIENTS_address: 'Address',
+        CLIENTS_age: 'Age',
+        CLIENTS_sex: 'Sex',
+        CLIENTS_date: 'Date',
+        CLIENTS_advise: 'Given advise',
+        CLIENTS_results: 'Test results',
+        CLIENTS_empty_medical_history: 'No medical history yet',
     };
 
     public static readonly he = {
@@ -163,6 +174,17 @@ export class TextManager {
 
         CLIENT_QUESTION_FORM_REPORTS_title: 'דוחות',
         CLIENT_QUESTION_FORM_REPORTS_confusion_matrix_report: 'מטריצת הבלבול',
-        CLIENT_QUESTION_FORM_REPORTS_classification_report: 'דוח סיווג'
+        CLIENT_QUESTION_FORM_REPORTS_classification_report: 'דוח סיווג',
+
+        CLIENTS_title: 'לוג היסטורייה רפואית',
+        CLIENTS_last_visit_title: 'היסטוריית ביקורים',
+        CLIENTS_id: 'ת.ז',
+        CLIENTS_address: 'כתובת מגורים',
+        CLIENTS_age: 'גיל',
+        CLIENTS_sex: 'מגדר',
+        CLIENTS_date: 'תאריך ביקור',
+        CLIENTS_advise: 'המלצה שניתנה',
+        CLIENTS_results: 'תוצאות בדיקה',
+        CLIENTS_empty_medical_history: 'טרם נמצאו ביקורים',
     };
 }

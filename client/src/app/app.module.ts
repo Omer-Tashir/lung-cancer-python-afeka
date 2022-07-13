@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, PercentPipe } from '@angular/common';
 
 // Application modules
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +39,7 @@ import { ClientQuestionForm1Component } from './client-questionnaire/client-ques
 import { ClientQuestionForm2Component } from './client-questionnaire/client-question-form2/client-question-form2.component';
 import { ClientQuestionFormResultComponent } from './client-questionnaire/client-question-form-result/client-question-form-result.component';
 import { ReportsComponent } from './reports/reports.component';
+import { ClientsComponent } from './clients/clients.component';
 
 export const CUSTOM_DATE_FORMAT = {
   parse: {
@@ -64,6 +65,7 @@ export const CUSTOM_DATE_FORMAT = {
     ClientQuestionForm2Component,
     ClientQuestionFormResultComponent,
     ReportsComponent,
+    ClientsComponent,
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ export const CUSTOM_DATE_FORMAT = {
   ],
   providers: [
     DatePipe,
+    PercentPipe,
     { provide: MAT_DATE_LOCALE, useValue: 'he' },
     { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

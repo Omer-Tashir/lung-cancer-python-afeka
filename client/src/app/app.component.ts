@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from './core/language-service';
-import { TextManager } from './core/text-manager';
 
 @Component({
   selector: 'app-root',

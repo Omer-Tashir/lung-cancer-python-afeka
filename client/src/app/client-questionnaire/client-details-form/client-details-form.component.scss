@@ -67,3 +67,23 @@
 input.mat-input-element {
   background-color: white;
 }
+
+.client {
+    &__empty-visits {
+        font-style: italic;
+        font-size: 15px;
+        color: #8f8f8f;
+    }
+
+    &__history-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+
+        & > span {
+            font-size: 15px;
+            font-weight: 500;
+        }
+    }
+}

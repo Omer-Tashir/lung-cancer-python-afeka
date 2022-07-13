@@ -1,0 +1,44 @@
+<h3 @fadeInOut class="client__title">
+    {{textManager.CLIENTS_title}}
+</h3>
+
+<div class="clients" *ngIf="(clients$ | async) as clients">
+
+    <div class="client" @fadeInOut *ngFor="let client of clients">
+
+        <p class="client__name">{{client.firstName}} {{client.lastName}}</p>
+
+        <p class="client__details">
+            <span>{{textManager.CLIENTS_id}}: {{client.uid}}</span>
+            <span>{{textManager.CLIENTS_address}}: {{client.address}} {{client.addressNumber}}, {{client.city}}</span>
+            <span>{{textManager.CLIENTS_age}}: {{client.age}}</span>
+            <span>{{textManager.CLIENTS_sex}}: {{client.sex}}</span>
+        </p>
+
+        <ng-container *ngIf="client.medicalHistory?.length; else emptyMedicalHistory">
+
+            <p class="client__last-visit-title">
+                {{textManager.CLIENTS_last_visit_title}}
+            </p>
+    
+            <ul class="client__history">
+                <li *ngFor="let appointment of client.medicalHistory" class="client__history-item">
+                    <span>{{textManager.CLIENTS_date}}: {{appointment.date | date:'dd/MM/yyyy - hh:mm:ss'}}</span>
+                    <code>{{textManager.CLIENTS_results}}: 
+                        {{selectedLanguage === 'en' ? appointment.results_en : appointment.results_he}}
+                    </code>
+                    <code>{{textManager.CLIENTS_advise}}: 
+                        {{selectedLanguage === 'en' ? appointment.advise_en : appointment.advise_he}}
+                    </code>
+                </li>
+            </ul>
+
+        </ng-container>
+
+        <ng-template #emptyMedicalHistory>
+            <span class="client__empty-visits">{{textManager.CLIENTS_empty_medical_history}}</span>
+        </ng-template>
+
+    </div>
+
+</div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
-import { from, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 
 import { Doctor } from '../models/doctor.interface';
 import { Client } from '../models/client.interface';
@@ -11,6 +11,8 @@ import { ClientAppointment } from '../models/client-appointment.interface';
     providedIn: 'root',
 })
 export class DatabaseService {
+
+    public updateSub = new BehaviorSubject<boolean>(false);
 
     constructor(
         private db: AngularFirestore
@@ -28,8 +30,15 @@ export class DatabaseService {
         );
     }
 
-    getClient(uid: string): Observable<Client | undefined> {
-        let localClient: Client | undefined;
+    getClients(): Observable<Client[]> {
+        return this.db.collection(`client`).get().pipe(
+            map(clients => clients.docs.map(doc => this.getClient(doc.id))),
+            switchMap(clients => forkJoin(clients))
+        );
+    }
+
+    getClient(uid: string): Observable<Client> {
+        let localClient!: Client;
         return this.db.collection(`client`).doc(''+uid).get().pipe(
             map(res => {
                 if (res.data()) {
@@ -38,7 +47,7 @@ export class DatabaseService {
                     return result;
                 }
                 
-                return undefined;
+                return {} as Client;
             }),
             tap(res => localClient = res),
             filter(client => !!client),
@@ -52,7 +61,7 @@ export class DatabaseService {
         );
     }
 
-    getClientAppointments(clientId: string | undefined): Observable<ClientAppointment[]> {
+    getClientAppointments(clientId?: string | undefined): Observable<ClientAppointment[]> {
         if (clientId) {
             return this.db.collection(`client-appointment`, ref => ref.where('clientId', '==', clientId)).get().pipe(
                 first(),
@@ -60,10 +69,19 @@ export class DatabaseService {
                     const result = <ClientAppointment>doc.data();
                     return result;
                 })),
+                tap(() => this.updateSub.next(false))
             );
         }
-
-        return of([]);
+        else {
+            return this.db.collection(`client-appointment`).get().pipe(
+                first(),
+                map(result => result.docs.map(doc => {
+                    const result = <ClientAppointment>doc.data();
+                    return result;
+                })),
+                tap(() => this.updateSub.next(false))
+            );
+        }
     }
 
     registerClient(client: Client): Observable<void> {
@@ -71,6 +89,8 @@ export class DatabaseService {
     }
 
     addClientAppointment(appointment: ClientAppointment): Observable<any> {
-        return from(this.db.collection(`client-appointment`).add(appointment));
+        return from(this.db.collection(`client-appointment`).add(appointment)).pipe(
+            tap(() => this.updateSub.next(true))
+        );
     }
 }
