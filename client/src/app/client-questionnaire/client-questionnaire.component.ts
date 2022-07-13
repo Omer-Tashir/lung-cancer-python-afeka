@@ -78,7 +78,7 @@ export class ClientQuestionnaireComponent implements OnInit {
     this.clientService.getClient(formData.clientId).pipe(
       first(),
       tap(client => {
-        if (client) {
+        if (!!client) {
           sessionStorage.setItem('client', JSON.stringify(client));
           this.client = client;
           this.setStep(StepEnum.APPROVE_CLIENT_PRESONAL_DETAILS);
