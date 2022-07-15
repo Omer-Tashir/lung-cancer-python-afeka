@@ -50,8 +50,7 @@ export class DatabaseService {
                 return {} as Client;
             }),
             tap(res => localClient = res),
-            filter(client => !!client),
-            switchMap(client => this.getClientAppointments(localClient?.uid)),
+            switchMap(() => this.getClientAppointments(localClient?.uid)),
             map((appointments: ClientAppointment[]) => {
                 if (localClient) {
                     localClient.medicalHistory = appointments;

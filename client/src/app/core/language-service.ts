@@ -8,9 +8,9 @@ import { TextManager } from "./text-manager";
 })
 export class LanguageService {
 
-    private currentLanguage = new BehaviorSubject<'he'|'en'>('en');
-    private currentDirection = new BehaviorSubject<'rtl'|'ltr'>('ltr');
-    private textManager = new BehaviorSubject<any>(TextManager.en);
+    private currentLanguage = new BehaviorSubject<'he'|'en'>('he');
+    private currentDirection = new BehaviorSubject<'rtl'|'ltr'>('rtl');
+    private textManager = new BehaviorSubject<any>(TextManager.he);
 
     constructor(
         @Inject(DOCUMENT) private document: Document

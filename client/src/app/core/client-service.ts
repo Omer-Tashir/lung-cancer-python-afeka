@@ -11,22 +11,22 @@ export class ClientService {
 
     constructor(
         private readonly db: DatabaseService
-    ) { }
+    ) {}
 
-    register(client: Client): void {
-        this.db.registerClient({
-            uid: '204415608',
-            email: 'omertashir1993@gmail.com',
-            firstName: 'Omer',
-            lastName: 'Tashir',
-            sex: 'M',
-            age: 29,
-            phoneNumber: '0542880358',
-            city: 'Holon',
-            address: 'Israeli Ben Tzion',
-            addressNumber: '7',
-        } as Client);
-    }
+    // register(): void {
+    //     this.db.registerClient({
+    //         uid: '205432864',
+    //         email: 'anaz@gmail.com',
+    //         firstName: 'אנה',
+    //         lastName: 'זקניים',
+    //         sex: 'F',
+    //         age: 82,
+    //         phoneNumber: '052-5381648',
+    //         city: 'חיפה',
+    //         address: 'הכרמל',
+    //         addressNumber: '75',
+    //     } as Client).subscribe();
+    // }
 
     getClient(uid: string): Observable<Client> {
         return this.db.getClient(uid);

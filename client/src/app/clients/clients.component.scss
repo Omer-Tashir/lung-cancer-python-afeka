@@ -37,10 +37,11 @@
     &__details {
         display: flex;
         flex-wrap: wrap;
-        gap: 2rem;
+        column-gap: 1rem;
+        row-gap: 7px;
         font-style: italic;
         color: #787878;
-        margin: 0.75rem 0 0;
+        margin: 0.75rem 0 1rem;
     }
 
     &__last-visit-title {

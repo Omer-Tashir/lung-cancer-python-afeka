@@ -13,6 +13,7 @@
             <span>{{textManager.CLIENTS_address}}: {{client.address}} {{client.addressNumber}}, {{client.city}}</span>
             <span>{{textManager.CLIENTS_age}}: {{client.age}}</span>
             <span>{{textManager.CLIENTS_sex}}: {{client.sex}}</span>
+            <span>{{textManager.CLIENTS_phone}}: {{client.phoneNumber}}</span>
         </p>
 
         <ng-container *ngIf="client.medicalHistory?.length; else emptyMedicalHistory">
