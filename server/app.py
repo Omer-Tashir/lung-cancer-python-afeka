@@ -148,6 +148,10 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver Operating Characteristic (ROC) Curve')
 plt.legend()
 
+@app.route("/hello")
+def hello():
+    return "Hello"
+
 @app.route('/form1Probabillity', methods=["GET"])
 def getForm1Probabillity():
     args = request.args
